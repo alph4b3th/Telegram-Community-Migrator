@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using WTelegram;
 using TL;
 using TCM.Destination.Models;
+using System.Formats.Asn1;
 
 namespace TCM.Engine.Telegram;
 
@@ -88,211 +89,190 @@ public sealed class TelegramClientService : IAsyncDisposable
         if (!chats.chats.TryGetValue(groupId, out var chat))
             throw new InvalidOperationException("Grupo não encontrado.");
 
-        var members = new Dictionary<long, TelegramMember>();
         _sourceUsers.Clear();
 
-        // void AddUser(User user)
-        // {
-        //     members[user.id] = new TelegramMember(
-        //         user.id,
-        //         user.first_name ?? "",
-        //         user.last_name,
-        //         user.username
-        //     );
-        // }
 
-
-        void AddUser(User user)
-        {
-            _sourceUsers[user.id] = user;
-
-            members[user.id] = new TelegramMember(
-                user.id,
-                user.first_name ?? "",
-                user.last_name,
-                user.username
-            );
-        }
-        // Grupo básico
         if (chat is Chat)
         {
             var fullChat = await _client.Messages_GetFullChat(groupId);
 
             foreach (var user in fullChat.users.Values)
-                AddUser(user);
+                AddsourceUser(user);
         }
-        // Supergrupo
         else if (chat is Channel channel)
         {
-            for (int offset = 0; ;)
-            {
-                var result = await _client.Channels_GetParticipants(
-                    channel,
-                    null,
-                    offset
-                );
-
-                foreach (var user in result.users.Values)
-                    AddUser(user);
-
-                offset += result.participants.Length;
-
-                if (offset >= result.count ||
-                    result.participants.Length == 0)
-                    break;
-            }
+            await LoadChannelMembersAsync(channel);
         }
 
-        return members.Values.ToList();
+        return _sourceUsers.Values
+            .Select(ToTelegramMember)
+             .ToList();
+    }
 
+    private void AddsourceUser(User user)
+    {
+        _sourceUsers[user.id] = user;
+    }
+
+    private async Task LoadChannelMembersAsync(Channel channel)
+    {
+        for (int offset = 0; ;)
+        {
+            var result = await _client.Channels_GetParticipants(
+                channel,
+                null,
+                offset
+            );
+
+            foreach (var user in result.users.Values)
+                AddsourceUser(user);
+
+            offset += result.participants.Length;
+
+            if (offset >= result.count || result.participants.Length == 0)
+                break;
+
+
+        }
     }
 
 
-    public async Task<string> CreateInviteLinkAsync(long destinationGroupId)
+    private static TelegramMember ToTelegramMember(User user)
     {
-        var chats = await _client.Messages_GetAllChats();
-
-        if (!chats.chats.TryGetValue(destinationGroupId, out var chat))
-            throw new InvalidOperationException(
-                "Grupo de destino não encontrado."
-            );
-
-        if (!chat.IsActive)
-            throw new InvalidOperationException(
-                "O grupo de destino está inativo."
-            );
-
-        var invite = (ChatInviteExported)
-            await _client.Messages_ExportChatInvite(
-                chat,
-                title: "TCM - Convite"
-            );
-
-        return invite.link;
+        return new TelegramMember(
+            user.id,
+            user.first_name ?? "",
+            user.last_name,
+            user.username
+        );
     }
 
     public async Task<List<string>> AddMembersAsync(
-    long destinationGroupId,
-    IEnumerable<TelegramMember> members)
+        long destinationGroupId,
+        IEnumerable<TelegramMember> members)
     {
-        var chats = await _client.Messages_GetAllChats();
-
-        if (!chats.chats.TryGetValue(destinationGroupId, out var destination))
-            throw new InvalidOperationException(
-                "Grupo de destino não encontrado."
-            );
-
-        if (!destination.IsActive)
-            throw new InvalidOperationException(
-                "Grupo de destino inativo."
-            );
-
+        var destination = await GetActiveGroupAsync(destinationGroupId);
         var results = new List<string>();
 
         foreach (var member in members)
         {
             if (_controller.State == OperationState.Stopped)
-            {
-                Console.WriteLine("O processamento foi encerrado.");
                 break;
-            }
 
             await _controller.WaitForResumeAsync();
 
             if (!_sourceUsers.TryGetValue(member.Id, out var user))
             {
-                results.Add(
-                    $"NÃO ENCONTRADO | {member.Id} | {member.FirstName}"
-                );
-
-                Console.WriteLine(
-                   $"NÃO ENCONTRADO | {member.Id} | {member.FirstName}"
-               );
-
+                RecordResult(
+                    results,
+                    "NÃO ENCONTRADO",
+                    member);
 
                 continue;
             }
 
             try
             {
-                int delay = Random.Shared.Next(3 * 1000, 5 * 1000);
-                await Task.Delay(delay);
+                await Task.Delay(Random.Shared.Next(3000, 5000));
 
                 var response = await _client.AddChatUser(
                     destination,
-                    user
-                );
+                    user);
 
                 if (response.missing_invitees is { Length: > 0 })
                 {
-                    results.Add(
-                        $"RECUSADO | {member.Id} | {member.FirstName}"
-                    );
+                    RecordResult(
+                        results,
+                        "RECUSADO",
+                        member);
 
-
-                    Console.WriteLine(
-                 $"RECUSADO | {member.Id} | {member.FirstName}"
-             );
                 }
                 else
                 {
-                    results.Add(
-                        $"ADICIONADO | {member.Id} | {member.FirstName}"
-                    );
+                    RecordResult(
+                        results,
+                        "ADICIONADO",
+                        member);
 
-
-                    Console.WriteLine(
-                       $"ADICIONADO | {member.Id} | {member.FirstName}"
-                   );
-
-                    _controller.Resume();
                 }
             }
-            catch (RpcException ex) when (
-                ex.Message.Contains("PEER_FLOOD", StringComparison.OrdinalIgnoreCase)
-                )
-            {
-                results.Add(
-                    $"PEER_FLOOD | {member.Id} | {member.FirstName} | {ex.Message}"
-                );
 
-                Console.WriteLine("PEER_FLOOD: Telegram restringiu as operações.");
-                _controller.Suspend();
-                Console.WriteLine("Processamento suspenso.");
-
-            }
-
-            catch (RpcException ex) when (
-             ex.Message.Contains("FLOOD_WAIT_X", StringComparison.OrdinalIgnoreCase)
-             )
-            {
-                results.Add(
-                    $"FLOOD_WAIT_X | {member.Id} | {member.FirstName} | {ex.Message}"
-                );
-
-                Console.WriteLine("FLOOD_WAIT_X: Telegram restringiu as operações.");
-                _controller.Suspend();
-                Console.WriteLine("Processamento suspenso.");
-
-            }
             catch (RpcException ex)
             {
-                results.Add(
-                    $"RPC_ERROR | {member.Id} | {member.FirstName} | {ex.Message}"
-                );
+                if (IsRateLimitError(ex))
+                {
+                    RecordResult(
+                        results,
+                        "RESTRIÇÃO TELEGRAM",
+                        member,
+                        ex.Message
+                    );
 
-                Console.WriteLine($"RPC_ERROR | {ex.Message}");
+                    _controller.Suspend();
+
+                    Console.WriteLine(
+                       "Operação suspensa devido a uma restrição do Telegram.");
+                    break;
+                }
+                RecordResult(
+                   results,
+                   "RPC_ERROR",
+                   member,
+                   ex.Message);
             }
+
             catch (Exception ex)
             {
-                results.Add(
-                    $"FALHA | {member.Id} | {member.FirstName} | {ex.Message}"
-                );
-
-                Console.WriteLine($"FALHA | {ex.Message}");
+                RecordResult(
+                    results,
+                    "FALHA",
+                    member,
+                    ex.Message);
             }
         }
-
         return results;
+    }
+
+    private async Task<InputPeer> GetActiveGroupAsync(long groupId)
+    {
+        var chats = await _client.Messages_GetAllChats();
+
+        if (!chats.chats.TryGetValue(groupId, out var chat))
+
+            throw new InvalidOperationException(
+                "Grupo de destino não encontrado.");
+
+        if (!chat.IsActive)
+            throw new InvalidOperationException(
+                "Grupo de destino inativo.");
+
+        return chat;
+
+    }
+
+    private static bool IsRateLimitError(RpcException exception)
+    {
+        return exception.Message.Contains(
+                   "PEER_FLOOD",
+                   StringComparison.OrdinalIgnoreCase)
+               || exception.Message.Contains(
+                   "FLOOD_WAIT",
+                   StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static void RecordResult(
+        List<string> results,
+        string status,
+        TelegramMember member,
+        string? details = null)
+    {
+        string message = $"{status} | {member.Id} | {member.FirstName}";
+
+        if (!string.IsNullOrWhiteSpace(details))
+            message += $" | {details}";
+
+        results.Add(message);
+
+        Console.WriteLine(message);
     }
 }
