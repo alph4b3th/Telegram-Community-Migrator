@@ -9,7 +9,7 @@ namespace TCM.Engine.Telegram;
 public sealed class TelegramClientService : IAsyncDisposable
 {
     private readonly Client _client;
-
+    private readonly Dictionary<long, User> _sourceUsers = new();
     public TelegramClientService()
     {
         IConfiguration configuration = new ConfigurationBuilder()
@@ -47,90 +47,191 @@ public sealed class TelegramClientService : IAsyncDisposable
     }
 
 
-public async Task<List<TelegramGroup>> GetGroupsAsync()
-{
-    var result = await _client.Messages_GetAllChats();
-
-    var groups = new List<TelegramGroup>();
-
-    foreach (var (id, chat) in result.chats)
+    public async Task<List<TelegramGroup>> GetGroupsAsync()
     {
-        if (!chat.IsActive)
-            continue;
+        var result = await _client.Messages_GetAllChats();
 
-        switch (chat)
+        var groups = new List<TelegramGroup>();
+
+        foreach (var (id, chat) in result.chats)
         {
-            case Chat smallGroup:
-                groups.Add(new TelegramGroup(
-                    id,
-                    smallGroup.title,
-                    smallGroup.participants_count
-                ));
-                break;
+            if (!chat.IsActive)
+                continue;
 
-            case Channel channel when !channel.IsChannel:
-                groups.Add(new TelegramGroup(
-                    id,
-                    channel.title,
-                    channel.participants_count
-                ));
-                break;
+            switch (chat)
+            {
+                case Chat smallGroup:
+                    groups.Add(new TelegramGroup(
+                        id,
+                        smallGroup.title,
+                        smallGroup.participants_count
+                    ));
+                    break;
+
+                case Channel channel when !channel.IsChannel:
+                    groups.Add(new TelegramGroup(
+                        id,
+                        channel.title,
+                        channel.participants_count
+                    ));
+                    break;
+            }
         }
+
+        return groups;
     }
 
-    return groups;
-}
-
-public async Task<List<TelegramMember>> GetMembersAsync(long groupId)
-{
-    var chats = await _client.Messages_GetAllChats();
-
-    if (!chats.chats.TryGetValue(groupId, out var chat))
-        throw new InvalidOperationException("Grupo não encontrado.");
-
-    var members = new Dictionary<long, TelegramMember>();
-
-    void AddUser(User user)
+    public async Task<List<TelegramMember>> GetMembersAsync(long groupId)
     {
-        members[user.id] = new TelegramMember(
-            user.id,
-            user.first_name ?? "",
-            user.last_name,
-            user.username
-        );
-    }
+        var chats = await _client.Messages_GetAllChats();
 
-    // Grupo básico
-    if (chat is Chat)
-    {
-        var fullChat = await _client.Messages_GetFullChat(groupId);
+        if (!chats.chats.TryGetValue(groupId, out var chat))
+            throw new InvalidOperationException("Grupo não encontrado.");
 
-        foreach (var user in fullChat.users.Values)
-            AddUser(user);
-    }
-    // Supergrupo
-    else if (chat is Channel channel)
-    {
-        for (int offset = 0; ; )
+        var members = new Dictionary<long, TelegramMember>();
+        _sourceUsers.Clear();
+
+        // void AddUser(User user)
+        // {
+        //     members[user.id] = new TelegramMember(
+        //         user.id,
+        //         user.first_name ?? "",
+        //         user.last_name,
+        //         user.username
+        //     );
+        // }
+
+
+        void AddUser(User user)
         {
-            var result = await _client.Channels_GetParticipants(
-                channel,
-                null,
-                offset
+            _sourceUsers[user.id] = user;
+
+            members[user.id] = new TelegramMember(
+                user.id,
+                user.first_name ?? "",
+                user.last_name,
+                user.username
+            );
+        }
+        // Grupo básico
+        if (chat is Chat)
+        {
+            var fullChat = await _client.Messages_GetFullChat(groupId);
+
+            foreach (var user in fullChat.users.Values)
+                AddUser(user);
+        }
+        // Supergrupo
+        else if (chat is Channel channel)
+        {
+            for (int offset = 0; ;)
+            {
+                var result = await _client.Channels_GetParticipants(
+                    channel,
+                    null,
+                    offset
+                );
+
+                foreach (var user in result.users.Values)
+                    AddUser(user);
+
+                offset += result.participants.Length;
+
+                if (offset >= result.count ||
+                    result.participants.Length == 0)
+                    break;
+            }
+        }
+
+        return members.Values.ToList();
+
+    }
+
+
+    public async Task<string> CreateInviteLinkAsync(long destinationGroupId)
+    {
+        var chats = await _client.Messages_GetAllChats();
+
+        if (!chats.chats.TryGetValue(destinationGroupId, out var chat))
+            throw new InvalidOperationException(
+                "Grupo de destino não encontrado."
             );
 
-            foreach (var user in result.users.Values)
-                AddUser(user);
+        if (!chat.IsActive)
+            throw new InvalidOperationException(
+                "O grupo de destino está inativo."
+            );
 
-            offset += result.participants.Length;
+        var invite = (ChatInviteExported)
+            await _client.Messages_ExportChatInvite(
+                chat,
+                title: "TCM - Convite"
+            );
 
-            if (offset >= result.count ||
-                result.participants.Length == 0)
-                break;
-        }
+        return invite.link;
     }
 
-    return members.Values.ToList();
-}
+    public async Task<List<string>> AddMembersAsync(
+    long destinationGroupId,
+    IEnumerable<TelegramMember> members)
+    {
+        var chats = await _client.Messages_GetAllChats();
 
+        if (!chats.chats.TryGetValue(destinationGroupId, out var destination))
+            throw new InvalidOperationException(
+                "Grupo de destino não encontrado."
+            );
+
+        if (!destination.IsActive)
+            throw new InvalidOperationException(
+                "Grupo de destino inativo."
+            );
+
+        var results = new List<string>();
+
+        foreach (var member in members)
+        {
+            int delay = Random.Shared.Next(1000, 5001);
+
+            await Task.Delay(delay);
+            
+            if (!_sourceUsers.TryGetValue(member.Id, out var user))
+            {
+                results.Add(
+                    $"NÃO ENCONTRADO | {member.Id} | {member.FirstName}"
+                );
+
+                continue;
+            }
+
+            try
+            {
+                var response = await _client.AddChatUser(
+                    destination,
+                    user
+                );
+
+                if (response.missing_invitees is { Length: > 0 })
+                {
+                    results.Add(
+                        $"RECUSADO | {member.Id} | {member.FirstName}"
+                    );
+                }
+                else
+                {
+                    results.Add(
+                        $"ADICIONADO | {member.Id} | {member.FirstName}"
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                results.Add(
+                    $"FALHA | {member.Id} | {member.FirstName} | {ex.Message}"
+                );
+            }
+        }
+
+        return results;
+    }
 }
