@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TCM.Engine")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b1e84a9ec4cfbfa0943860363598fdad1ea25779")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a625fdaf76c5f6bbf6a603881a715e3ff3c0cc2b")]
 [assembly: System.Reflection.AssemblyProductAttribute("TCM.Engine")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TCM.Engine")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

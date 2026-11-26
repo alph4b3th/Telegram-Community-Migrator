@@ -1,5 +1,6 @@
 ﻿
 using TCM.Engine.Telegram;
+using TCM.Engine.Serialization;
 
 await using var telegram = new TelegramClientService();
 
@@ -45,3 +46,15 @@ foreach (var member in members)
 }
 
 Console.WriteLine($"\nTotal encontrado: {members.Count}");
+
+var exporter = new JsonExporter();
+
+string filePath = Path.Combine(
+    AppContext.BaseDirectory,
+    "exports",
+    $"members_{groupId}.json"
+);
+
+await exporter.ExportAsync(members, filePath);
+
+Console.WriteLine($"\nArquivo JSON exportado: {filePath}");
