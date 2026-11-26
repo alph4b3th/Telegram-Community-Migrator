@@ -1,0 +1,12 @@
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\bin\Release\net10.0\TCM.Engine.deps.json
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\bin\Release\net10.0\TCM.Engine.dll
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\bin\Release\net10.0\TCM.Engine.pdb
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\obj\Release\net10.0\TCM.Engine.csproj.AssemblyReference.cache
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\obj\Release\net10.0\TCM.Engine.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\obj\Release\net10.0\TCM.Engine.AssemblyInfoInputs.cache
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\obj\Release\net10.0\TCM.Engine.AssemblyInfo.cs
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\obj\Release\net10.0\TCM.Engine.csproj.CoreCompileInputs.cache
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\obj\Release\net10.0\TCM.Engine.dll
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\obj\Release\net10.0\refint\TCM.Engine.dll
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\obj\Release\net10.0\TCM.Engine.pdb
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\obj\Release\net10.0\ref\TCM.Engine.dll

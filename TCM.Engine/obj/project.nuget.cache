@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "dgSpecHash": "4BcVEfL27T0=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\bruno\\Documents\\Projects\\C#\\Telegram Client Mananger\\TCM.Engine\\TCM.Engine.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.extensions.configuration\\11.0.0\\microsoft.extensions.configuration.11.0.0.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\11.0.0\\microsoft.extensions.configuration.abstractions.11.0.0.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.extensions.configuration.fileextensions\\11.0.0\\microsoft.extensions.configuration.fileextensions.11.0.0.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.extensions.configuration.json\\11.0.0\\microsoft.extensions.configuration.json.11.0.0.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.extensions.configuration.usersecrets\\11.0.0\\microsoft.extensions.configuration.usersecrets.11.0.0.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\11.0.0\\microsoft.extensions.fileproviders.abstractions.11.0.0.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\11.0.0\\microsoft.extensions.fileproviders.physical.11.0.0.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\11.0.0\\microsoft.extensions.filesystemglobbing.11.0.0.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.extensions.primitives\\11.0.0\\microsoft.extensions.primitives.11.0.0.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\system.io.pipelines\\11.0.0\\system.io.pipelines.11.0.0.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\system.text.encodings.web\\11.0.0\\system.text.encodings.web.11.0.0.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\system.text.json\\11.0.0\\system.text.json.11.0.0.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\wtelegramclient\\4.4.12\\wtelegramclient.4.4.12.nupkg.sha512"
+  ],
+  "logs": []
+}
