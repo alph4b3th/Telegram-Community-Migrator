@@ -1,0 +1,17 @@
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\bin\Debug\net10.0\TCM.CLI.exe
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\bin\Debug\net10.0\TCM.CLI.deps.json
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\bin\Debug\net10.0\TCM.CLI.runtimeconfig.json
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\bin\Debug\net10.0\TCM.CLI.dll
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\bin\Debug\net10.0\TCM.CLI.pdb
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\bin\Debug\net10.0\WTelegramClient.dll
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\obj\Debug\net10.0\TCM.CLI.csproj.AssemblyReference.cache
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\obj\Debug\net10.0\TCM.CLI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\obj\Debug\net10.0\TCM.CLI.AssemblyInfoInputs.cache
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\obj\Debug\net10.0\TCM.CLI.AssemblyInfo.cs
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\obj\Debug\net10.0\TCM.CLI.csproj.CoreCompileInputs.cache
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\obj\Debug\net10.0\TCM.CLI.csproj.Up2Date
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\obj\Debug\net10.0\TCM.CLI.dll
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\obj\Debug\net10.0\refint\TCM.CLI.dll
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\obj\Debug\net10.0\TCM.CLI.pdb
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\obj\Debug\net10.0\TCM.CLI.genruntimeconfig.cache
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\obj\Debug\net10.0\ref\TCM.CLI.dll

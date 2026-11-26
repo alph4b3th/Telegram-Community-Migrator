@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "sG6iCl1qK3k=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\bruno\\Documents\\Projects\\C#\\Telegram Client Mananger\\TCM.CLI\\TCM.CLI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\bruno\\.nuget\\packages\\wtelegramclient\\4.4.12\\wtelegramclient.4.4.12.nupkg.sha512"
+  ],
+  "logs": []
+}
