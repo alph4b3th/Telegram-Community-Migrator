@@ -165,10 +165,19 @@
           }
         }
       },
+      "TCM.Destination/1.0.0": {
+        "runtime": {
+          "TCM.Destination.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "TCM.Engine/1.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Configuration": "11.0.0",
           "Microsoft.Extensions.Configuration.UserSecrets": "11.0.0",
+          "TCM.Destination": "1.0.0",
           "WTelegramClient": "4.4.12"
         },
         "runtime": {
@@ -276,6 +285,11 @@
       "sha512": "sha512-oyix/JCi7YQb0i2SHjpOhPdR/viPjzpAWi0jcTxdzXrWPY2yRPOvYUaXUvh1miLb5wEfhFMUr64zENJEuIbFnw==",
       "path": "wtelegramclient/4.4.12",
       "hashPath": "wtelegramclient.4.4.12.nupkg.sha512"
+    },
+    "TCM.Destination/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "TCM.Engine/1.0.0": {
       "type": "project",

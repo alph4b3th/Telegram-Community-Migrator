@@ -13,4 +13,8 @@
     <PackageReference Include="WTelegramClient" Version="4.4.12" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TCM.Destination\TCM.Destination.csproj" />
+  </ItemGroup>
+
 </Project>

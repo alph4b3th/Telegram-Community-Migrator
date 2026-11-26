@@ -252,6 +252,16 @@
             "related": ".xml"
           }
         }
+      },
+      "TCM.Destination/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/TCM.Destination.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TCM.Destination.dll": {}
+        }
       }
     }
   },
@@ -653,12 +663,18 @@
         "wtelegramclient.4.4.12.nupkg.sha512",
         "wtelegramclient.nuspec"
       ]
+    },
+    "TCM.Destination/1.0.0": {
+      "type": "project",
+      "path": "../TCM.Destination/TCM.Destination.csproj",
+      "msbuildProject": "../TCM.Destination/TCM.Destination.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
       "Microsoft.Extensions.Configuration >= 11.0.0",
       "Microsoft.Extensions.Configuration.UserSecrets >= 11.0.0",
+      "TCM.Destination >= 1.0.0",
       "WTelegramClient >= 4.4.12"
     ]
   },
@@ -695,7 +711,11 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\bruno\\Documents\\Projects\\C#\\Telegram Client Mananger\\TCM.Destination\\TCM.Destination.csproj": {
+              "projectPath": "C:\\Users\\bruno\\Documents\\Projects\\C#\\Telegram Client Mananger\\TCM.Destination\\TCM.Destination.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
