@@ -57,36 +57,28 @@ public sealed class TelegramClientService : IAsyncDisposable
 
     public async Task<List<TelegramGroup>> GetGroupsAsync()
     {
-        var result = await _client.Messages_GetAllChats();
+        var chats = await _client.Messages_GetAllChats();
 
-        var groups = new List<TelegramGroup>();
-
-        foreach (var (id, chat) in result.chats)
-        {
-            if (!chat.IsActive)
-                continue;
-
-            switch (chat)
+        return chats.chats
+            .Where(pair => pair.Value.IsActive)
+            .Select(pair => pair.Value switch
             {
-                case Chat smallGroup:
-                    groups.Add(new TelegramGroup(
-                        id,
-                        smallGroup.title,
-                        smallGroup.participants_count
-                    ));
-                    break;
+                Chat chat => new TelegramGroup(
+                    pair.Key,
+                    chat.title,
+                    chat.participants_count),
 
-                case Channel channel when !channel.IsChannel:
-                    groups.Add(new TelegramGroup(
-                        id,
-                        channel.title,
-                        channel.participants_count
-                    ));
-                    break;
-            }
-        }
+                Channel channel when !channel.IsChannel =>
+                new TelegramGroup(
+                    pair.Key,
+                    channel.title,
+                    channel.participants_count),
 
-        return groups;
+                _ => null
+
+            })
+            .OfType<TelegramGroup>()
+            .ToList();
     }
 
     public async Task<List<TelegramMember>> GetMembersAsync(long groupId)
