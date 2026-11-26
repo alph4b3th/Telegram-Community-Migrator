@@ -10,10 +10,14 @@ public sealed class TelegramClientService : IAsyncDisposable
 {
     private readonly Client _client;
     private readonly Dictionary<long, User> _sourceUsers = new();
+
+    private readonly OperationController _controller = new OperationController();
     public TelegramClientService()
     {
+
         IConfiguration configuration = new ConfigurationBuilder()
-            .AddUserSecrets<TelegramClientService>()
+            .AddUserSecrets<TelegramClientService>(optional: true)
+            .AddEnvironmentVariables()
             .Build();
 
         string apiId = configuration["Telegram:ApiId"]
@@ -191,21 +195,33 @@ public sealed class TelegramClientService : IAsyncDisposable
 
         foreach (var member in members)
         {
-            int delay = Random.Shared.Next(1000, 5001);
+            if (_controller.State == OperationState.Stopped)
+            {
+                Console.WriteLine("O processamento foi encerrado.");
+                break;
+            }
 
-            await Task.Delay(delay);
-            
+            await _controller.WaitForResumeAsync();
+
             if (!_sourceUsers.TryGetValue(member.Id, out var user))
             {
                 results.Add(
                     $"NÃO ENCONTRADO | {member.Id} | {member.FirstName}"
                 );
 
+                Console.WriteLine(
+                   $"NÃO ENCONTRADO | {member.Id} | {member.FirstName}"
+               );
+
+
                 continue;
             }
 
             try
             {
+                int delay = Random.Shared.Next(3 * 1000, 5 * 1000);
+                await Task.Delay(delay);
+
                 var response = await _client.AddChatUser(
                     destination,
                     user
@@ -216,19 +232,68 @@ public sealed class TelegramClientService : IAsyncDisposable
                     results.Add(
                         $"RECUSADO | {member.Id} | {member.FirstName}"
                     );
+
+
+                    Console.WriteLine(
+                 $"RECUSADO | {member.Id} | {member.FirstName}"
+             );
                 }
                 else
                 {
                     results.Add(
                         $"ADICIONADO | {member.Id} | {member.FirstName}"
                     );
+
+
+                    Console.WriteLine(
+                       $"ADICIONADO | {member.Id} | {member.FirstName}"
+                   );
+
+                   _controller.Resume();
                 }
+            }
+            catch (RpcException ex) when (
+                ex.Message.Contains("PEER_FLOOD", StringComparison.OrdinalIgnoreCase)
+                )
+            {
+                results.Add(
+                    $"PEER_FLOOD | {member.Id} | {member.FirstName} | {ex.Message}"
+                );
+
+                Console.WriteLine("PEER_FLOOD: Telegram restringiu as operações.");
+                _controller.Suspend();
+                Console.WriteLine("Processamento suspenso.");
+               
+            }
+
+               catch (RpcException ex) when (
+                ex.Message.Contains("FLOOD_WAIT_X", StringComparison.OrdinalIgnoreCase)
+                )
+            {
+                results.Add(
+                    $"FLOOD_WAIT_X | {member.Id} | {member.FirstName} | {ex.Message}"
+                );
+
+                Console.WriteLine("FLOOD_WAIT_X: Telegram restringiu as operações.");
+                _controller.Suspend();
+                Console.WriteLine("Processamento suspenso.");
+              
+            }
+            catch (RpcException ex)
+            {
+                results.Add(
+                    $"RPC_ERROR | {member.Id} | {member.FirstName} | {ex.Message}"
+                );
+
+                Console.WriteLine($"RPC_ERROR | {ex.Message}");
             }
             catch (Exception ex)
             {
                 results.Add(
                     $"FALHA | {member.Id} | {member.FirstName} | {ex.Message}"
                 );
+
+                Console.WriteLine($"FALHA | {ex.Message}");
             }
         }
 

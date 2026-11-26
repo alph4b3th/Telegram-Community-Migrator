@@ -1,0 +1,4 @@
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\publish-win\TCM.CLI.pdb
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\publish-win\TCM.Engine.pdb
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\publish-win\TCM.Destination.pdb
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\publish-win\TCM.CLI.exe

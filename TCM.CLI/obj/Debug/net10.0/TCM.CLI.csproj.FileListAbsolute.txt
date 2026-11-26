@@ -32,3 +32,4 @@ C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\bin\Debug\
 C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\bin\Debug\net10.0\runtimes\browser\lib\net10.0\System.Text.Encodings.Web.dll
 C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\bin\Debug\net10.0\TCM.Destination.dll
 C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\bin\Debug\net10.0\TCM.Destination.pdb
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.CLI\bin\Debug\net10.0\Microsoft.Extensions.Configuration.EnvironmentVariables.dll

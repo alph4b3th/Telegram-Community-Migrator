@@ -9,7 +9,9 @@
       "TCM.Engine/1.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Configuration": "11.0.0",
+          "Microsoft.Extensions.Configuration.EnvironmentVariables": "11.0.0",
           "Microsoft.Extensions.Configuration.UserSecrets": "11.0.0",
+          "TCM.Destination": "1.0.0",
           "WTelegramClient": "4.4.12"
         },
         "runtime": {
@@ -34,6 +36,18 @@
         },
         "runtime": {
           "lib/net10.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.26.53018"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.EnvironmentVariables/11.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "11.0.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "11.0.0"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.Configuration.EnvironmentVariables.dll": {
             "assemblyVersion": "11.0.0.0",
             "fileVersion": "11.0.26.53018"
           }
@@ -166,6 +180,14 @@
             "fileVersion": "4.4.12.0"
           }
         }
+      },
+      "TCM.Destination/1.0.0": {
+        "runtime": {
+          "TCM.Destination.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -188,6 +210,13 @@
       "sha512": "sha512-oyBSWnEsEi9SZTiwAfuKIdVIiEZ7TvNOtdFaGqyzF9WtomNV+uZHCqhQbnz/ipjtM50BYJ4s0MWbYafolq2mAg==",
       "path": "microsoft.extensions.configuration.abstractions/11.0.0",
       "hashPath": "microsoft.extensions.configuration.abstractions.11.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration.EnvironmentVariables/11.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Cctea20Fzc9Rc1zx6QYhvu9NJJHv8mUGUmWEtKkA0Tz4JQKReSKugVYi/sHuxXG1IndFSybG6cWC06DvGgs+mA==",
+      "path": "microsoft.extensions.configuration.environmentvariables/11.0.0",
+      "hashPath": "microsoft.extensions.configuration.environmentvariables.11.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration.FileExtensions/11.0.0": {
       "type": "package",
@@ -265,6 +294,11 @@
       "sha512": "sha512-oyix/JCi7YQb0i2SHjpOhPdR/viPjzpAWi0jcTxdzXrWPY2yRPOvYUaXUvh1miLb5wEfhFMUr64zENJEuIbFnw==",
       "path": "wtelegramclient/4.4.12",
       "hashPath": "wtelegramclient.4.4.12.nupkg.sha512"
+    },
+    "TCM.Destination/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

@@ -1,0 +1,11 @@
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\bin\Release\net10.0\TCM.Destination.deps.json
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\bin\Release\net10.0\TCM.Destination.dll
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\bin\Release\net10.0\TCM.Destination.pdb
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\obj\Release\net10.0\TCM.Destination.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\obj\Release\net10.0\TCM.Destination.AssemblyInfoInputs.cache
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\obj\Release\net10.0\TCM.Destination.AssemblyInfo.cs
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\obj\Release\net10.0\TCM.Destination.csproj.CoreCompileInputs.cache
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\obj\Release\net10.0\TCM.Destination.dll
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\obj\Release\net10.0\refint\TCM.Destination.dll
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\obj\Release\net10.0\TCM.Destination.pdb
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\obj\Release\net10.0\ref\TCM.Destination.dll

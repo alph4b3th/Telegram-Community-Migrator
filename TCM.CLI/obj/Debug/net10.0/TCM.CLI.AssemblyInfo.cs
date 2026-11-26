@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TCM.CLI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+80898325455577ca7e0ccd83c0669cf3a8b0b3c0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02e39661b85cae017df08ef855cdd2b03d9436e6")]
 [assembly: System.Reflection.AssemblyProductAttribute("TCM.CLI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TCM.CLI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
