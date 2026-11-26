@@ -20,14 +20,11 @@ public sealed class TelegramClientService : IAsyncDisposable
             .AddEnvironmentVariables()
             .Build();
 
-        string apiId = configuration["Telegram:ApiId"]
-            ?? throw new InvalidOperationException("ApiId não configurado.");
 
-        string apiHash = configuration["Telegram:ApiHash"]
-            ?? throw new InvalidOperationException("ApiHash não configurado.");
 
-        string phoneNumber = configuration["Telegram:PhoneNumber"]
-            ?? throw new InvalidOperationException("PhoneNumber não configurado.");
+        string apiId = GetRequiredConfiguration(configuration, "Telegram:ApiId");
+        string apiHash = GetRequiredConfiguration(configuration, "Telegram:ApiHash");
+        string phoneNumber = GetRequiredConfiguration(configuration, "Telegram:PhoneNumber");
 
         _client = new Client(key => key switch
         {
@@ -36,8 +33,15 @@ public sealed class TelegramClientService : IAsyncDisposable
             "phone_number" => phoneNumber,
             _ => null
         });
+
     }
 
+    private static string GetRequiredConfiguration(
+        IConfiguration configuration,
+        string key)
+    {
+        return configuration[key] ?? throw new InvalidOperationException($"Configuração não encontrada: {key}");
+    }
     public async Task ConnectAsync()
     {
         var user = await _client.LoginUserIfNeeded();
@@ -249,7 +253,7 @@ public sealed class TelegramClientService : IAsyncDisposable
                        $"ADICIONADO | {member.Id} | {member.FirstName}"
                    );
 
-                   _controller.Resume();
+                    _controller.Resume();
                 }
             }
             catch (RpcException ex) when (
@@ -263,12 +267,12 @@ public sealed class TelegramClientService : IAsyncDisposable
                 Console.WriteLine("PEER_FLOOD: Telegram restringiu as operações.");
                 _controller.Suspend();
                 Console.WriteLine("Processamento suspenso.");
-               
+
             }
 
-               catch (RpcException ex) when (
-                ex.Message.Contains("FLOOD_WAIT_X", StringComparison.OrdinalIgnoreCase)
-                )
+            catch (RpcException ex) when (
+             ex.Message.Contains("FLOOD_WAIT_X", StringComparison.OrdinalIgnoreCase)
+             )
             {
                 results.Add(
                     $"FLOOD_WAIT_X | {member.Id} | {member.FirstName} | {ex.Message}"
@@ -277,7 +281,7 @@ public sealed class TelegramClientService : IAsyncDisposable
                 Console.WriteLine("FLOOD_WAIT_X: Telegram restringiu as operações.");
                 _controller.Suspend();
                 Console.WriteLine("Processamento suspenso.");
-              
+
             }
             catch (RpcException ex)
             {
