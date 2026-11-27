@@ -195,7 +195,7 @@ public sealed class TelegramClientService : IAsyncDisposable
 
             try
             {
-                await Task.Delay(Random.Shared.Next(3000, 5000));
+              await Task.Delay( TimeSpan.FromSeconds(Random.Shared.Next(30, 60)));
 
                 var response = await _client.AddChatUser(
                     destination,
