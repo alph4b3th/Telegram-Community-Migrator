@@ -8,7 +8,7 @@ public enum OperationState
 }
 public sealed class OperationController
 {
-    
+
     public OperationState State { get; private set; } =
         OperationState.Running;
 
@@ -27,10 +27,19 @@ public sealed class OperationController
     public void Stop()
         => State = OperationState.Stopped;
 
-    public async Task<bool> WaitForResumeAsync()
+    public async Task<bool> WaitForResumeAsync(Func<Task<bool>> recoveryCheck)
     {
         while (State == OperationState.Suspended)
-            await Task.Delay(60*1000);
+        {
+
+            bool canResume = await recoveryCheck();
+
+            if (!canResume)
+                await Task.Delay(60 * 1000);
+
+            else Resume();
+
+        }
 
         return State == OperationState.Running;
     }

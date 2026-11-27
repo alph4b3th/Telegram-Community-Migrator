@@ -159,7 +159,7 @@ public sealed class TelegramClientService : IAsyncDisposable
             if (_controller.State == OperationState.Stopped)
                 break;
 
-            await _controller.WaitForResumeAsync();
+
 
             if (!_sourceUsers.TryGetValue(member.Id, out var user))
             {
@@ -170,6 +170,28 @@ public sealed class TelegramClientService : IAsyncDisposable
 
                 continue;
             }
+
+            await _controller.WaitForResumeAsync(async () =>
+                       {
+                           try
+                           {
+                               await Task.Delay(Random.Shared.Next(3000, 5000));
+
+                               var response = await _client.AddChatUser(
+                                   destination,
+                                   user);
+
+                               return response.missing_invitees is not { Length: > 0 };
+                           }
+                           catch (RpcException)
+                           {
+                               return false;
+                           }
+                           catch (Exception)
+                           {
+                               return false;
+                           }
+                       });
 
             try
             {
@@ -194,6 +216,8 @@ public sealed class TelegramClientService : IAsyncDisposable
                         "ADICIONADO",
                         member);
 
+                    if (_controller.State == OperationState.Suspended)
+                        _controller.Resume();
                 }
             }
 
@@ -212,7 +236,8 @@ public sealed class TelegramClientService : IAsyncDisposable
 
                     Console.WriteLine(
                        "Operação suspensa devido a uma restrição do Telegram.");
-                    break;
+
+
                 }
                 RecordResult(
                    results,
