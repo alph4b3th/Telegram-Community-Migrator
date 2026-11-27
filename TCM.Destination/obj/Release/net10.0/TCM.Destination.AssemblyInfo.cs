@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TCM.Destination")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+234032571f1010606367d20c7e555cc42e87f361")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c88d40cd70f2f7a22ce102188141259a7dfa366")]
 [assembly: System.Reflection.AssemblyProductAttribute("TCM.Destination")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TCM.Destination")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
