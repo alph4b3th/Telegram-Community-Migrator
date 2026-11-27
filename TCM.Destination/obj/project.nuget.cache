@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "BunEHVXDc6Y=",
+  "dgSpecHash": "VfrfCba2c3Q=",
   "success": true,
   "projectFilePath": "C:\\Users\\bruno\\Documents\\Projects\\C#\\Telegram Client Mananger\\TCM.Destination\\TCM.Destination.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.net.illink.tasks\\10.0.10\\microsoft.net.illink.tasks.10.0.10.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.10\\microsoft.netcore.app.runtime.win-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.10\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.10\\microsoft.aspnetcore.app.runtime.win-x64.10.0.10.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zRjUePwHrDk=",
+  "dgSpecHash": "GEOpAu4D/IU=",
   "success": true,
   "projectFilePath": "C:\\Users\\bruno\\Documents\\Projects\\C#\\Telegram Client Mananger\\TCM.Engine\\TCM.Engine.csproj",
   "expectedPackageFiles": [
@@ -14,10 +14,14 @@
     "C:\\Users\\bruno\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\11.0.0\\microsoft.extensions.fileproviders.physical.11.0.0.nupkg.sha512",
     "C:\\Users\\bruno\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\11.0.0\\microsoft.extensions.filesystemglobbing.11.0.0.nupkg.sha512",
     "C:\\Users\\bruno\\.nuget\\packages\\microsoft.extensions.primitives\\11.0.0\\microsoft.extensions.primitives.11.0.0.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.net.illink.tasks\\10.0.10\\microsoft.net.illink.tasks.10.0.10.nupkg.sha512",
     "C:\\Users\\bruno\\.nuget\\packages\\system.io.pipelines\\11.0.0\\system.io.pipelines.11.0.0.nupkg.sha512",
     "C:\\Users\\bruno\\.nuget\\packages\\system.text.encodings.web\\11.0.0\\system.text.encodings.web.11.0.0.nupkg.sha512",
     "C:\\Users\\bruno\\.nuget\\packages\\system.text.json\\11.0.0\\system.text.json.11.0.0.nupkg.sha512",
-    "C:\\Users\\bruno\\.nuget\\packages\\wtelegramclient\\4.4.12\\wtelegramclient.4.4.12.nupkg.sha512"
+    "C:\\Users\\bruno\\.nuget\\packages\\wtelegramclient\\4.4.12\\wtelegramclient.4.4.12.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.10\\microsoft.netcore.app.runtime.win-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.10\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\bruno\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.10\\microsoft.aspnetcore.app.runtime.win-x64.10.0.10.nupkg.sha512"
   ],
   "logs": []
 }
