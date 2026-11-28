@@ -9,3 +9,4 @@ C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\ob
 C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\obj\Debug\net10.0\refint\TCM.Destination.dll
 C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\obj\Debug\net10.0\TCM.Destination.pdb
 C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\obj\Debug\net10.0\ref\TCM.Destination.dll
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Destination\obj\Debug\net10.0\TCM.Destination.sourcelink.json

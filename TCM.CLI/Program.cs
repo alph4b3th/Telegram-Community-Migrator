@@ -64,6 +64,10 @@ var importedMembers =
         filePath
     );
 
+importedMembers = importedMembers
+    .OrderBy(_ => Random.Shared.Next())
+    .ToList();
+
 Console.WriteLine(
     $"\nJSON carregado: {importedMembers.Count} participantes."
 );

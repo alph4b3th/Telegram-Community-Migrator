@@ -35,7 +35,7 @@ public sealed class OperationController
             bool canResume = await recoveryCheck();
 
             if (!canResume)
-                await Task.Delay(TimeSpan.FromMinutes(5));
+                await Task.Delay(TimeSpan.FromMinutes(30));
 
             else Resume();
 

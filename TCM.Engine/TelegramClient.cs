@@ -27,13 +27,37 @@ public sealed class TelegramClientService : IAsyncDisposable
         string apiHash = GetRequiredConfiguration(configuration, "Telegram:ApiHash");
         string phoneNumber = GetRequiredConfiguration(configuration, "Telegram:PhoneNumber");
 
-        _client = new Client(key => key switch
-        {
-            "api_id" => apiId,
-            "api_hash" => apiHash,
-            "phone_number" => phoneNumber,
-            _ => null
-        });
+        // _client = new Client(key => key switch
+        // {
+        //     "api_id" => apiId,
+        //     "api_hash" => apiHash,
+        //     "phone_number" => phoneNumber,
+        //     _ => null
+        // });
+
+        string sessionPath = Path.Combine(
+    AppContext.BaseDirectory,
+    "WTelegram.session"
+);
+
+        var sessionStream = new FileStream(
+            sessionPath,
+            FileMode.OpenOrCreate,
+            FileAccess.ReadWrite,
+            FileShare.None
+        );
+
+        Console.WriteLine($"celular: {phoneNumber}");
+        _client = new Client(
+            key => key switch
+            {
+                "api_id" => apiId,
+                "api_hash" => apiHash,
+                "phone_number" => phoneNumber,
+                _ => null
+            },
+            sessionStore: sessionStream
+        );
 
     }
 
@@ -147,6 +171,43 @@ public sealed class TelegramClientService : IAsyncDisposable
         );
     }
 
+    public async Task<bool> IsMemberInGroupAsync(
+        long groupId,
+        long userId)
+    {
+        var chats = await _client.Messages_GetAllChats();
+
+        if (!chats.chats.TryGetValue(groupId, out var chat))
+            throw new InvalidOperationException("Grupo não encontrado.");
+
+        if (chat is Chat)
+        {
+            var fullChat = await _client.Messages_GetFullChat(groupId);
+
+            return fullChat.users.ContainsKey(userId);
+        }
+
+        if (chat is Channel channel)
+        {
+            try
+            {
+                await _client.Channels_GetParticipant(
+                    channel,
+                    new InputPeerUser(userId, _sourceUsers[userId].access_hash)
+                );
+
+                return true;
+            }
+            catch (RpcException ex) when (
+                ex.Message.Contains("PARTICIPANT_ID_INVALID"))
+            {
+                return false;
+            }
+        }
+
+        throw new InvalidOperationException("Tipo de grupo não suportado.");
+    }
+
     public async Task<List<string>> AddMembersAsync(
         long destinationGroupId,
         IEnumerable<TelegramMember> members)
@@ -173,15 +234,18 @@ public sealed class TelegramClientService : IAsyncDisposable
 
             await _controller.WaitForResumeAsync(async () =>
                        {
+                           Console.WriteLine("testando se é seguro");
                            try
                            {
-                               await Task.Delay( TimeSpan.FromSeconds(Random.Shared.Next(30, 60)));
+
+                               await Task.Delay(TimeSpan.FromSeconds(Random.Shared.Next(30, 60)));
 
                                var response = await _client.AddChatUser(
                                    destination,
                                    user);
 
-                               return response.missing_invitees is not { Length: > 0 };
+                               //    return response.missing_invitees is not { Length: > 0 };
+                               return true;
                            }
                            catch (RpcException)
                            {
@@ -195,7 +259,20 @@ public sealed class TelegramClientService : IAsyncDisposable
 
             try
             {
-              await Task.Delay( TimeSpan.FromSeconds(Random.Shared.Next(30, 60)));
+
+
+                if (await IsMemberInGroupAsync(destinationGroupId, member.Id))
+                {
+                    RecordResult(
+                        results,
+                        "JÁ É MEMBRO",
+                        member
+                    );
+
+                    continue;
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(Random.Shared.Next(30, 60)));
 
                 var response = await _client.AddChatUser(
                     destination,

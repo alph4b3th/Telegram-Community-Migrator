@@ -13,3 +13,4 @@ C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\obj\Deb
 C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\bin\Debug\net10.0\TCM.Destination.dll
 C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\bin\Debug\net10.0\TCM.Destination.pdb
 C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\obj\Debug\net10.0\TCM.Engine.csproj.Up2Date
+C:\Users\bruno\Documents\Projects\C#\Telegram Client Mananger\TCM.Engine\obj\Debug\net10.0\TCM.Engine.sourcelink.json
